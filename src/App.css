@@ -38,9 +38,28 @@
 }
 
 .input-boxes{
+  position: fixed;
+  top: 50px;
+  left: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
+}
+
+.tablerows td{
+  border: 2px solid gray;
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: center;
+}
+
+.tablerows td img{
+  width: 24px;
+  height: 24px;
+}
+
+.tablerows td img:hover{
+  cursor: pointer;
 }
