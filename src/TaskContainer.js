@@ -1,4 +1,4 @@
-﻿import {useTasks} from './useTasks';
+import {useTasks} from './useTasks';
 import {InputBoxes} from './InputBoxes';
 import {TaskList} from './TaskList';
 

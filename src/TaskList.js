@@ -1,4 +1,4 @@
-﻿import completedpng from './wwwroot/Complete.png'
+import completedpng from './wwwroot/Complete.png'
 import notcompletepng from './wwwroot/NotComplete.png'
 
 export function TaskList({tasks, ToggleTaskCompletion, deleteTask}){
