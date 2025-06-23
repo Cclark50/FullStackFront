@@ -5,6 +5,8 @@ const TASK_URL = "/tasks/";
 
 export function useTasks(){
     const [taskList, setTaskList] = useState([]);
+    const [descriptionbox, setDescriptionbox] = useState('');
+    const [namebox, setNamebox] = useState('');
 
     useEffect(() => {
         loadTasks();
@@ -29,7 +31,8 @@ export function useTasks(){
             console.log(data);
             setTaskList((prev) =>{
                 const newList =  [...prev];
-                newList[id] = data;
+                const index = newList.findIndex((item) => item.id === id);
+                newList[index] = data;
                 return newList;
             }
             );
@@ -65,6 +68,7 @@ export function useTasks(){
                     const newList = [...prev];
                     const newtask = { id: data.id, title: data.title, description: data.description, isCompleted: data.isCompleted };
                     newList.push(newtask);
+                    console.log("updated list: ", newList);
                     return newList;
                 }
             );
@@ -80,11 +84,14 @@ export function useTasks(){
                 method: "DELETE",
             })
             if(!response.ok){
+                console.log(response);
                 throw new Error("Failed to delete task");
             }
+            const index = taskList.findIndex((item) => item.id === id);
             setTaskList((prev) =>{
+                console.log("inside settasklist");
                 const newList = [...prev];
-                newList.splice(id, 1);
+                newList.splice(index, 1);
                 return newList;
             })
         }catch(error){
@@ -92,22 +99,12 @@ export function useTasks(){
         }
     }
 
-    return {taskList, ToggleTaskCompletion, addTask, deleteTask, loadTasks};
-}
+
+    async function printall(){
+        console.log(taskList);
+        await fetch('http://localhost:5235/api/value');
+    }
 
 
-export function TaskList({tasks, ToggleTaskCompletion, deleteTask}){
-    if(!tasks) return <p>Loading...</p>;
-    if(tasks.length === 0) return <p>No tasks found</p>;
-    return <div>
-        <ul>
-            {tasks.map((task)=>(
-                <li key={task.id}>
-                    <span onClick={() => ToggleTaskCompletion(task.id)}>{task.title} | {task.description} |</span>
-                    <input type="checkbox" checked={task.isCompleted} disabled></input>
-                    <span onClick={() => deleteTask(task.id)}>Delete Task</span>
-                </li>
-            ))}
-        </ul>
-    </div>
+    return {taskList, addTask, loadTasks, printall, namebox, descriptionbox, setNamebox, setDescriptionbox, ToggleTaskCompletion, deleteTask};
 }
